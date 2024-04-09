@@ -13,21 +13,13 @@ use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
 
-class SoftDeletableEventSubscriber implements EventSubscriber, EventSubscriberInterface
+class SoftDeletableEventSubscriber
 {
     private Configuration $configuration;
 
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
-    }
-
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::onFlush,
-            Events::loadClassMetadata,
-        ];
     }
 
     public function onFlush(OnFlushEventArgs $onFlushEventArgs): void

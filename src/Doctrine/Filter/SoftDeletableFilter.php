@@ -57,14 +57,14 @@ class SoftDeletableFilter extends SQLFilter
 
             $conn = $this->getEntityManager()->getConnection();
             $platform = $conn->getDatabasePlatform();
-            $column = $targetEntity->getQuotedColumnName($softDeletableFiledName, $platform);
+            $column = $targetEntity->getColumnName($softDeletableFiledName, $platform);
 
             $expression = $platform->getIsNullExpression(\sprintf('%s.%s', $targetTableAlias, $column));
             if ($this->hasParameter('deleted_date_aware') && "'1'" === $this->getParameter('deleted_date_aware')) {
                 $expression .= \sprintf(
                     ' OR %s.%s >= %s',
                     $targetTableAlias,
-                    $column,
+                    $platform->quoteIdentifier($column),
                     $platform->getCurrentTimestampSQL()
                 );
             }
